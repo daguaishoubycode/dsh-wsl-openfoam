@@ -1,0 +1,13 @@
+# Normalize line endings: the plugin ships to Windows but the sources are
+# plain text, and CRLF in a JS bundle is noise in every diff.
+* text=auto eol=lf
+
+# Windows-only batch/PowerShell would need CRLF if added later.
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binary
+*.png binary
+*.ico binary
+*.woff2 binary

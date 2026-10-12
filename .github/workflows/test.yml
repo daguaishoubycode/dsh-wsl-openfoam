@@ -1,0 +1,32 @@
+# The WSL suites need a Windows runner with WSL available; they skip themselves
+# when wsl.exe is unreachable, so the pure-logic and client checks still run.
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Syntax-check every shipped file, then run the suites. The WSL-dependent
+      # checks skip when no distribution is present, which is the normal state
+      # on a fresh runner.
+      - name: Syntax check
+        run: |
+          node --check index.js
+          node --check client.js
+        shell: bash
+
+      - name: Test
+        run: npm test
+        shell: bash

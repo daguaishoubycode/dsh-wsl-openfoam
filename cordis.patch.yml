@@ -1,0 +1,15 @@
+# dsh-wsl-openfoam bundle patch.
+#
+# One insert row mounts the Host half; the browser half is declared by
+# `dsh.client` in package.json and binds to the row whose `name` is the bare
+# package name (a subpath row would not carry the half).
+- insert:
+    - id: wsl-openfoam
+      name: dsh-wsl-openfoam
+# The config lives in its own top-level row rather than inside the insert row
+# above. `configEditor` — which the settings page saves through — rewrites a row
+# by matching a top-level `id` that carries no `insert`, so an insert-carried
+# config would be invisible to it and every save would append a duplicate row.
+- id: wsl-openfoam
+  config:
+    defaultVersion: 5.x
